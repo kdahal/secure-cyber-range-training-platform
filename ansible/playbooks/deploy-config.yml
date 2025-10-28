@@ -1,0 +1,7 @@
+---
+- name: Deploy Config
+  hosts: localhost
+  tasks:
+    - name: Placeholder task
+      debug:
+        msg: "Ansible config applied (e.g., SSL renewal, proxy setup)"

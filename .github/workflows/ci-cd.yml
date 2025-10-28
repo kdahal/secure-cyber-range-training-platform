@@ -1,0 +1,50 @@
+name: CI/CD Pipeline
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build Docker
+      run: docker build -t scrtp-app ./app
+    - name: SonarQube Scan
+      uses: sonarqube/scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    - name: Test
+      run: npm test  # Includes e2e
+
+  deploy:
+    needs: build-test-scan
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v3
+    - name: Terraform Apply
+      uses: hashicorp/terraform-github-actions/apply@v0.5.0
+      with:
+        tf_dir: terraform
+      env:
+        ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+    - name: Deploy to AKS
+      uses: azure/k8s-deploy@v4
+      with:
+        manifests: kubernetes/
+        images: yourdockerhub/scrtp-backend: ${{ github.sha }}
+        namespace: training
+      env:
+        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        KUBECONFIG: ${{ secrets.KUBECONFIG }}
+    - name: Ansible Config
+      uses: dawidd6/action-ansible-playbook@v2
+      with:
+        playbook: ansible/playbooks/deploy-config.yml
+      env:
+        ANSIBLE_HOST_KEY_CHECKING: False

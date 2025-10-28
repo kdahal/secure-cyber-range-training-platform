@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scrtp-app
+  namespace: training
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scrtp
+  template:
+    metadata:
+      labels:
+        app: scrtp
+    spec:
+      containers:
+      - name: backend
+        image: nginx  # Placeholder; replace with your image
+        ports:
+        - containerPort: 80

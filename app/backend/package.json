@@ -1,0 +1,12 @@
+{
+  "name": "scrtp-backend",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "mongoose": "^7.0.0",
+    "mssql": "^9.0.0"
+  }
+}
