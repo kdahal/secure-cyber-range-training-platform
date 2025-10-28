@@ -1,6 +1,6 @@
 # Secure Cyber Range Training Platform (SC RTP)
 
-A production-grade DevSecOps deployment of a cybersecurity training platform on Azure AKS, aligned with Circadence Project Ares.
+A production-grade DevSecOps deployment of a cybersecurity training platform on Azure AKS.
 
 ## Overview
 - **App**: Containerized Node.js/Express backend with React frontend for gamified cyber training.
@@ -9,7 +9,7 @@ A production-grade DevSecOps deployment of a cybersecurity training platform on 
 - **Security**: SSL/TLS, RBAC, SonarQube scans.
 
 ## Quick Start
-1. Clone: `git clone https://github.com/YOUR_USERNAME/secure-cyber-range-training-platform.git`
+1. Clone: `git clone https://github.com/kdahal/secure-cyber-range-training-platform.git`
 2. Provision: `cd terraform && terraform init && terraform apply`
 3. Deploy: Push to main; CI/CD handles the rest.
 4. Access: https://scrtp.training (after DNS setup)

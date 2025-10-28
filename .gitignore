@@ -1,5 +1,5 @@
 # init.sh
-./init-repo.sh
+.init-repo.sh
 
 # Dependencies
 node_modules/

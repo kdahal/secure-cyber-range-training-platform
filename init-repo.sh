@@ -387,3 +387,7 @@ echo "1. Set up GitHub Secrets for CI/CD (AZURE_CLIENT_ID, etc.)."
 echo "2. Customize Terraform vars and apply: cd terraform && terraform init && terraform apply"
 echo "3. Build app: cd app/backend && npm install"
 echo "4. Push: git push origin main"
+
+
+
+Testing
