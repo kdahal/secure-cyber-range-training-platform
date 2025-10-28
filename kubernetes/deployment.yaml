@@ -4,7 +4,7 @@ metadata:
   name: scrtp-app
   namespace: training
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: scrtp
@@ -15,6 +15,35 @@ spec:
     spec:
       containers:
       - name: backend
-        image: nginx  # Placeholder; replace with your image
+        image: yourdockerhub/scrtp-backend:latest  # Built in CI/CD
+        env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets  # From Key Vault
+              key: mongodb-uri
+        - name: SQL_CONNECTION
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: sql-conn
         ports:
-        - containerPort: 80
+        - containerPort: 3000
+      - name: datadog-agent
+        image: datadog/agent:latest
+        env:
+        - name: DD_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: monitoring-secrets
+              key: datadog-key
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-secrets
+  namespace: training
+type: Opaque
+data:
+  mongodb-uri: <base64-encoded-from-key-vault>
+  sql-conn: <base64-encoded>

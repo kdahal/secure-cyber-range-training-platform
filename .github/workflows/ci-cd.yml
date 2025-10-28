@@ -41,10 +41,10 @@ jobs:
         namespace: training
       env:
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        KUBECONFIG: ${{ secrets.KUBECONFIG }}
+        KUBECONFIG: ${{ secrets.KUBECONFIG }}  # From Terraform output
     - name: Ansible Config
       uses: dawidd6/action-ansible-playbook@v2
       with:
-        playbook: ansible/playbooks/deploy-config.yml
+        playbook: ansible/playbooks/deploy-config.yml  # e.g., SSL renewal, proxy setup
       env:
         ANSIBLE_HOST_KEY_CHECKING: False
