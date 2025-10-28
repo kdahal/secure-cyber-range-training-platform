@@ -1,3 +1,6 @@
+# init.sh
+./init-repo.sh
+
 # Dependencies
 node_modules/
 npm-debug.log*
